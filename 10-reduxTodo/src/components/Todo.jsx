@@ -1,20 +1,36 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeTodo } from '../features/todo/todoSlice'
+import { removeTodo , updateTodo} from '../features/todo/todoSlice'
+import { useState } from 'react';
 function Todo() {
     const todos = useSelector(state => state.todos);
-    console.log(todos)
+     const [updateId, setUpdateId] = useState()
+    
     const dispatch = useDispatch()
+
+    const updateFeild = (val) =>{
+      
+      console.log(val)
+    }
     return (
         <>
         <div>Todos</div>
         <ul className="list-none">
             {todos.map((todo) => (
-              <li
+              <div>
+                {todo.id == updateId ? <li
+                  className="mt-4 flex justify-between items-center bg-zinc-800 px-4 py-2 rounded"
+                  key={todo.id}>
+                  <div>
+
+                  </div>
+                </li> :  <li
                 className="mt-4 flex justify-between items-center bg-zinc-800 px-4 py-2 rounded"
-                key={todo.id}
-              >
-                <div className='text-white'>{todo.text}</div>
+                key={todo.id}>
+                <div
+                className='text-white'>{todo.text}</div>
+                <button 
+                onClick = {() => updateFeild(todo.text)}className=' bg-green-500'>x</button>
                 <button
                  onClick={() => dispatch(removeTodo(todo.id))}
                   className="text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded text-md"
@@ -34,7 +50,8 @@ function Todo() {
                     />
                   </svg>
                 </button>
-              </li>
+              </li> }   
+              </div>
             ))}
           </ul>
         </>
